@@ -52,6 +52,9 @@ void setup() {
   laserMaxW = -40;
   laserX = robotX + 25;
   laserY = robotY + 37;
+  
+  fill(100);
+  rect(laserX - laserW, laserY, laserW, LASER_H, 5);
 }
 
 void draw() {

@@ -84,7 +84,7 @@ void draw() {
   stroke(2);
   fill(255, 0, 0);
   
-  rect(laserX - laserW, laserY, laserW, LASER_H, 5);
+  rect(laserX - laserW, laserY, laserW, LASER_H, 5.0f);
   if(laserW >= laserMaxW){
     laserW -= laserSpeed;
   }

@@ -55,6 +55,7 @@ void setup() {
 }
 
 void draw() {
+  rectMode(CORNER);
   // Enter Your Code Here
   image(bgImg, 0, 0, width, height);
   image(soil, 0, ONE_BLOCK*2, width, SOIL_H);

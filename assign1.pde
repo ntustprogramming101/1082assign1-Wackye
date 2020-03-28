@@ -69,10 +69,10 @@ void draw() {
   image(life, LIFE_D/2 + LIFE_D*7, LIFE_D/2, LIFE_W, LIFE_H);
   
   //sun
-  strokeWeight(5);
-  stroke(255, 255, 0);
-  fill(253, 184, 19);
-  ellipse(width - SUN_D, SUN_D, SUN_W, SUN_W);
+  //strokeWeight(5);
+  //stroke(255, 255, 0);
+  //fill(253, 184, 19);
+  //ellipse(width - SUN_D, SUN_D, SUN_W, SUN_W);
   
   //grass
   noStroke();

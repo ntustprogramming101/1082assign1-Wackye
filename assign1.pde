@@ -81,7 +81,7 @@ void draw() {
   image(groundhog, groundhogX, groundhogY, GROUNDHOG_W, GROUNDHOG_H);
   
   //robot: laser
-  stroke(2);
+  noStroke();
   fill(255, 0, 0);
   
   rect(laserX - laserW, laserY, laserW, LASER_H, 5.0f);

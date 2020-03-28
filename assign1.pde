@@ -53,8 +53,6 @@ void setup() {
   laserX = robotX + 25;
   laserY = robotY + 37;
   
-  fill(100);
-  rect(laserX - laserW, laserY, laserW, LASER_H, 5);
 }
 
 void draw() {
@@ -83,10 +81,10 @@ void draw() {
   image(groundhog, groundhogX, groundhogY, GROUNDHOG_W, GROUNDHOG_H);
   
   //robot: laser
-  noStroke();
+  stroke(2);
   fill(255, 0, 0);
+  
   rect(laserX - laserW, laserY, laserW, LASER_H, 5);
-//  print(laserX + "--" + laserY + "--" + laserW + "--" + LASER_H + "\n");
   if(laserW >= laserMaxW){
     laserW -= laserSpeed;
   }

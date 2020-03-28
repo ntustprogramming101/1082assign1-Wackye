@@ -83,7 +83,7 @@ void draw() {
   noStroke();
   fill(255, 0, 0);
   rect(laserX - laserW, laserY, laserW, LASER_H, 5);
-  print(laserX + "--" + laserY + "--" + laserW + "--" + LASER_H + "\n");
+//  print(laserX + "--" + laserY + "--" + laserW + "--" + LASER_H + "\n");
   if(laserW >= laserMaxW){
     laserW -= laserSpeed;
   }

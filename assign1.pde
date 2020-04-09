@@ -84,5 +84,5 @@ void draw() {
      xLaserL = laserNull;
     }
 
-image(robotImg, xRobot, yRobotLevel);
+//image(robotImg, xRobot, yRobotLevel);
 }

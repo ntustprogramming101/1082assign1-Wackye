@@ -1,110 +1,88 @@
 
 
-final int ONE_BLOCK = 80;
-final int SOIL_H = 320;
-final int SUN_W = 120;
-final int SUN_D = 50; //Distance from center to boundary
-final int GRASS_H = 15; //Grass thickness
+PImage bgImg, soilImg, groundhogImg, lifeImg, soldierImg, robotImg;
 
-final int LIFE_W = 50;
-final int LIFE_H = 50;
-final int LIFE_D = 20; //Distance between life
+int grid = 80;
+int skyToGround  = grid*2; // sky to ground distancedistance
+int xLifeInterval = 70; //x axis life interval
+int xSoldier;
 
-final int GROUNDHOG_W = 80;
-final int GROUNDHOG_H = 80;
+//laser variable
+int robotLaserPosX = 25;
+int robotLaserPosY = 37;
+int xLaserSpeed = 0;
 
-final int SOLDIER_W = 80;
-final int SOLDIER_H = 80;
+//random place
+float ySoldierLevel = grid * floor(random (2, 6));
+float yRobotLevel = grid * floor(random (2, 6));
+float xRobot = grid * floor(random (2, 8));
 
-final int ROBOT_W = 80;
-final int ROBOT_H = 80;
-final int LASER_H = 10;
-
-PImage bgImg, groundhog, life, robot, soil, soldier;
-
-float groundhogX, groundhogY;
-float soldierX, soldierY, soldierSpeed;
-float robotX, robotY;
-float laserX, laserY, laserSpeed, laserW, laserMaxW;
+//laser come out point
+float xLaserR = xRobot + robotLaserPosX;
+float xLaserL = xRobot + robotLaserPosX;
+float laserNull = xRobot + robotLaserPosX;;
+float yLaser = yRobotLevel + robotLaserPosY;
 
 void setup() {
   size(640, 480, P2D);
-  // Enter Your Setup Code Here
+  
+  //import image frome file
   bgImg = loadImage("img/bg.jpg");
-  groundhog = loadImage("img/groundhog.png");
-  life = loadImage("img/life.png");
-  robot = loadImage("img/robot.png");
-  soil = loadImage("img/soil.png");
-  soldier = loadImage("img/soldier.png");
+  soilImg = loadImage("img/soil.png");
+  groundhogImg = loadImage("img/groundhog.png");
+  lifeImg = loadImage("img/life.png");
+  soldierImg = loadImage("img/soldier.png");
+  robotImg = loadImage("img/robot.png");
   
-  groundhogX = width/2 - GROUNDHOG_W/2;
-  groundhogY = ONE_BLOCK;
+  //background image
+  image(bgImg, 0, 0);  
+  //draw the grass
+  fill(124, 204, 25);
+  noStroke();
+  rect(0, skyToGround - 15, 640, 15); 
+  //draw the sun
+  fill(253, 184, 19); 
+  strokeWeight(5);
+  stroke(255, 255, 0);
+  ellipse(640 - 50, 50, 120, 120);
+  //circle(640 - 50, 50, 120); //circle doesn't work on platform
   
-  soldierX = floor(random(1,9))*ONE_BLOCK;
-  soldierY = floor(random(4))*ONE_BLOCK + ONE_BLOCK*2;
-  soldierSpeed = 1;
-  
-  robotX = floor(random(2,8))*ONE_BLOCK;
-  robotY = floor(random(4))*ONE_BLOCK + ONE_BLOCK*2;
-  
-  laserSpeed = 2;
-  laserW = 0;
-  laserMaxW = -40;
-  laserX = robotX + 25;
-  laserY = robotY + 37;
-  
+  //life*3
+  image(lifeImg, 10, 10);
+  image(lifeImg, 10 + xLifeInterval, 10);
+  image(lifeImg, 10 + xLifeInterval * 2, 10); 
+
 }
 
 void draw() {
-  rectMode(CORNER);
-  // Enter Your Code Here
-  image(bgImg, 0, 0, width, height);
-  image(soil, 0, ONE_BLOCK*2, width, SOIL_H);
+
+  image(soilImg, 0, skyToGround); //the soil would be renew each time 
+  image(groundhogImg, 640/2-40, grid);  //place groundhog at the center groung
+
+  image(soldierImg, xSoldier, ySoldierLevel);
+  xSoldier = xSoldier + 2; //set the soldier moving speeds
+    
+    //set soldier moving cycle
+    if(xSoldier>640){
+    xSoldier = -80; //emerge from the left
+    }
+
+  stroke(255,0,0);   //set the laser color
+  strokeWeight(10);    //set the laser weight
+  strokeCap(ROUND);   //set the laser cap type
+  line(xLaserL, yLaser, xLaserR, yLaser);
+   
+  xLaserL = xLaserL - 2;  //set the laser speeds
   
-  //life
-  image(life, LIFE_D/2, LIFE_D/2, LIFE_W, LIFE_H);
-  image(life, LIFE_D*4, LIFE_D/2, LIFE_W, LIFE_H);
-  image(life, LIFE_D/2 + LIFE_D*7, LIFE_D/2, LIFE_W, LIFE_H);
-  
-  //sun
-  strokeWeight(5);
-  stroke(255, 255, 0);
-  fill(253, 184, 19);
-  ellipse(width - SUN_D, SUN_D, SUN_W, SUN_W);
-  
-  //grass
-  noStroke();
-  fill(124, 204, 25);
-  rect(0, ONE_BLOCK*2 - GRASS_H, width, GRASS_H);
-  
-  //groundhog
-  image(groundhog, groundhogX, groundhogY, GROUNDHOG_W, GROUNDHOG_H);
-  
-  //robot: laser
-  noStroke();
-  fill(255, 0, 0);
-  
-  rect(laserX - laserW, laserY, laserW, LASER_H, 5.0f);
-  if(laserW >= laserMaxW){
-    laserW -= laserSpeed;
-  }
-  if(laserX - laserW > robotX - ONE_BLOCK*2 - laserW){
-    laserX -= laserSpeed;
-  }else{
-    laserX = robotX + 25;
-    laserY = robotY + 37;
-    laserW = 0;
-    laserW -= laserSpeed;
-  }
-  
-  //robot
-  image(robot, robotX, robotY, ROBOT_W, ROBOT_H);
-  
-  //soldier
-  soldierX += soldierSpeed;
-  soldierX %= (width+SOLDIER_W);
-  image(soldier, soldierX-SOLDIER_W, soldierY, SOLDIER_W, SOLDIER_H);  //soldier
-  soldierX += soldierSpeed;
-  soldierX %= (width+SOLDIER_W);
-  image(soldier, soldierX-SOLDIER_W, soldierY, SOLDIER_W, SOLDIER_H);
+    //set the laser length
+    if( xLaserL <= xLaserR - 40){
+     xLaserR = xLaserR - 2;
+    } 
+    //set the laser cycle
+    if( xLaserL <= xRobot - robotLaserPosX - grid*2 ){
+     xLaserR = laserNull;
+     xLaserL = laserNull;
+    }
+
+image(robotImg, xRobot, yRobotLevel);
 }
